@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 
-pl/pierogmichal/model/client/Config.java
+/src/main/java/pl/pierogmichal/model/client/Config.java

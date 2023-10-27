@@ -18,7 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
+
     private WeatherService weatherService;
+
     @FXML
     private TextField currentCity;
 
@@ -61,20 +63,54 @@ public class MainViewController implements Initializable {
 
     @FXML
     void showWeatherAction() {
-        Weather firstWeather = weatherService.getWeather(currentCity.getText());
 
-        ObservableList<Forecast> firstCityForecasts = FXCollections.observableArrayList(firstWeather.getForecasts());
+        if (fieldsAreValid()) {
 
-        tableView.setItems(firstCityForecasts);
-        tableView.setVisible(true);
+            Weather firstWeather = weatherService.getWeather(currentCity.getText());
+            Weather secondWeather = weatherService.getWeather(planingCity.getText());
 
+            if (firstWeather != null && secondWeather != null) {
+                currentCountryCity.setText(currentCountry.getText() + ", " + currentCity.getText());
+                planingCountryCity.setText(planingCountry.getText() + ", " + planingCity.getText());
+
+                ObservableList<Forecast> firstCityForecasts = FXCollections.observableArrayList(firstWeather.getForecasts());
+                ObservableList<Forecast> secondCityForecasts = FXCollections.observableArrayList(secondWeather.getForecasts());
+
+                tableView.setItems(firstCityForecasts);
+                tableView2.setItems(secondCityForecasts);
+
+                tableView.setVisible(true);
+                tableView2.setVisible(true);
+                errorLabel.setText("");
+            } else {
+                tableView.setVisible(false);
+                tableView2.setVisible(false);
+                currentCountryCity.setText("");
+                planingCountryCity.setText("");
+                errorLabel.setText("Please enter correct data.");
+            }
+
+        }
+
+    }
+    private boolean fieldsAreValid() {
+        if (currentCountry.getText().isEmpty() || currentCity.getText().isEmpty() ||
+                planingCountry.getText().isEmpty() || planingCity.getText().isEmpty()) {
+
+            errorLabel.setText("Please fill Country and City.");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         weatherService = WeatherServiceFactory.createWeatherService();
 
         setupTableView(tableView);
+        setupTableView2(tableView2);
     }
     private void setupTableView(TableView<Forecast> tableView) {
 
@@ -83,4 +119,11 @@ public class MainViewController implements Initializable {
         pressureColumn.setCellValueFactory(new PropertyValueFactory<>("pressure"));
         temperatureColumn.setCellValueFactory(new PropertyValueFactory<>("temperature"));
     }
+    private void setupTableView2(TableView<Forecast> tableView) {
+        dateTimeColumn2.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+        descriptionColumn2.setCellValueFactory(new PropertyValueFactory<>("description"));
+        pressureColumn2.setCellValueFactory(new PropertyValueFactory<>("pressure"));
+        temperatureColumn2.setCellValueFactory(new PropertyValueFactory<>("temperature"));
+    }
+
 }
