@@ -6,5 +6,6 @@ module WeatherApp {
 
     opens pl.pierogmichal;
     opens pl.pierogmichal.controller;
+    opens pl.pierogmichal.model;
     opens pl.pierogmichal.view;
 }
