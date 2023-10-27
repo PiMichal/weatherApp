@@ -1,12 +1,20 @@
 package pl.pierogmichal.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import pl.pierogmichal.model.Weather;
+import pl.pierogmichal.model.WeatherService;
+import pl.pierogmichal.model.WeatherServiceFactory;
 
-public class MainViewController{
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainViewController implements Initializable {
+    private WeatherService weatherService;
     @FXML
     private TextField currentCity;
 
@@ -49,7 +57,11 @@ public class MainViewController{
 
     @FXML
     void showWeatherAction() {
-
+        Weather firstWeather = weatherService.getWeather(currentCity.getText());
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        weatherService = WeatherServiceFactory.createWeatherService();
+    }
 }
