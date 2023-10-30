@@ -17,8 +17,7 @@ public class ForecastClient implements WeatherClient {
     @Override
     public Weather getWeather(String currentCity) {
 
-        String apiUrl = Config.apiUrl + currentCity + "&appid=" + Config.API_KEY + "&units=metric";
-
+        String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + currentCity + "&appid=" + Config.API_KEY + "&units=metric";
 
         try {
             URL url = new URL(apiUrl);
