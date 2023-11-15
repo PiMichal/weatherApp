@@ -20,46 +20,16 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
     private WeatherService weatherService;
+    @FXML
+    private TextField currentCity, planingCity;
+    @FXML
+    private Label currentCountryCity, errorLabel, planingCountryCity;
+    @FXML
+    private TableView<Forecast> tableView, tableView2;
+    @FXML
+    private TableColumn<Forecast, String> dateTimeColumn, dateTimeColumn2, descriptionColumn, descriptionColumn2,
+            pressureColumn, pressureColumn2, temperatureColumn, temperatureColumn2;
 
-    @FXML
-    private TextField currentCity;
-
-    @FXML
-    private TextField currentCountry;
-
-    @FXML
-    private Label currentCountryCity;
-
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private TableView<Forecast> tableView;
-    @FXML
-    private TableView<Forecast> tableView2;
-    @FXML
-    private TableColumn<Forecast, String> dateTimeColumn;
-    @FXML
-    private TableColumn<Forecast, String> dateTimeColumn2;
-    @FXML
-    private TableColumn<Forecast, String> descriptionColumn;
-    @FXML
-    private TableColumn<Forecast, String> descriptionColumn2;
-    @FXML
-    private TableColumn<Forecast, String> pressureColumn;
-    @FXML
-    private TableColumn<Forecast, String> pressureColumn2;
-    @FXML
-    private TableColumn<Forecast, String> temperatureColumn;
-    @FXML
-    private TableColumn<Forecast, String> temperatureColumn2;
-    @FXML
-    private TextField planingCity;
-
-    @FXML
-    private TextField planingCountry;
-
-    @FXML
-    private Label planingCountryCity;
 
     @FXML
     void showWeatherAction() {
@@ -70,8 +40,8 @@ public class MainViewController implements Initializable {
             Weather secondWeather = weatherService.getWeather(planingCity.getText());
 
             if (firstWeather != null && secondWeather != null) {
-                currentCountryCity.setText(currentCountry.getText() + ", " + currentCity.getText());
-                planingCountryCity.setText(planingCountry.getText() + ", " + planingCity.getText());
+                currentCountryCity.setText(firstWeather.getCountry() + ", " + currentCity.getText());
+                planingCountryCity.setText(secondWeather.getCountry() + ", " + planingCity.getText());
 
                 ObservableList<Forecast> firstCityForecasts = FXCollections.observableArrayList(firstWeather.getForecasts());
                 ObservableList<Forecast> secondCityForecasts = FXCollections.observableArrayList(secondWeather.getForecasts());
@@ -93,17 +63,6 @@ public class MainViewController implements Initializable {
         }
 
     }
-    private boolean fieldsAreValid() {
-        if (currentCountry.getText().isEmpty() || currentCity.getText().isEmpty() ||
-                planingCountry.getText().isEmpty() || planingCity.getText().isEmpty()) {
-
-            errorLabel.setText("Please fill Country and City.");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -111,6 +70,14 @@ public class MainViewController implements Initializable {
 
         setupTableView(tableView);
         setupTableView2(tableView2);
+    }
+    private boolean fieldsAreValid() {
+        if (currentCity.getText().isEmpty() || planingCity.getText().isEmpty()) {
+            errorLabel.setText("Please fill City.");
+            return false;
+        } else {
+            return true;
+        }
     }
     private void setupTableView(TableView<Forecast> tableView) {
 

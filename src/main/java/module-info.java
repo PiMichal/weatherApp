@@ -3,6 +3,7 @@ module WeatherApp {
     requires javafx.controls;
     requires javafx.graphics;
     requires com.google.gson;
+    requires spring.web;
 
     opens pl.pierogmichal;
     opens pl.pierogmichal.controller;

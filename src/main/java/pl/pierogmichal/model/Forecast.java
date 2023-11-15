@@ -11,6 +11,7 @@ public class Forecast {
         this.temperature = temperature;
         this.pressure = pressure;
     }
+
     public String getDateTime() {
         return dateTime;
     }
