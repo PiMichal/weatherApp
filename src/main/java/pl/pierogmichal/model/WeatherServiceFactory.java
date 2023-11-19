@@ -7,10 +7,10 @@ import pl.pierogmichal.model.client.WeatherClient;
 public class WeatherServiceFactory {
     public static WeatherService createWeatherService() {
 
-        return new WeatherService(createWeatherClient());
+        return new WeatherService(createWeatherClient(new RestTemplate()));
     }
 
-    public static WeatherClient createWeatherClient() {
-        return new ForecastClient(new RestTemplate());
+    public static WeatherClient createWeatherClient(RestTemplate restTemplate) {
+        return new ForecastClient(restTemplate);
     }
 }
