@@ -1,0 +1,43 @@
+{
+  "city": {
+    "country": "TestCountry"
+  },
+  "list": [
+    {
+      "dt_txt": "2023-01-01 12:00:00",
+      "main": {
+        "temp": 25.0,
+        "pressure": 1013.0
+      },
+      "weather": [
+        {
+          "description": "Sunny"
+        }
+      ]
+    },
+    {
+      "dt_txt": "2023-01-02 12:00:00",
+      "main": {
+        "temp": 20.0,
+        "pressure": 1015.0
+      },
+      "weather": [
+        {
+          "description": "Cloudy"
+        }
+      ]
+    },
+    {
+      "dt_txt": "2023-01-03 12:00:00",
+      "main": {
+        "temp": 15.0,
+        "pressure": 1018.0
+      },
+      "weather": [
+        {
+          "description": "Rainy"
+        }
+      ]
+    }
+  ]
+}

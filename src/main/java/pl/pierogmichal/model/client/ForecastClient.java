@@ -3,11 +3,10 @@ package pl.pierogmichal.model.client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import pl.pierogmichal.model.Forecast;
 import pl.pierogmichal.model.Weather;
+
 import java.util.ArrayList;
 
 public class ForecastClient implements WeatherClient {
@@ -21,17 +20,16 @@ public class ForecastClient implements WeatherClient {
     @Override
     public Weather getWeather(String currentCity) {
 
+        String response = null;
+
         String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + currentCity + "&appid=" + Config.API_KEY + "&units=metric";
 
         try {
+            response = restTemplate.getForObject(apiUrl, String.class);
 
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
+            if (response != null) {
 
-            if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                String responseBody = responseEntity.getBody();
-
-                assert responseBody != null;
-                JsonObject jsonResponse = JsonParser.parseString(responseBody).getAsJsonObject();
+                JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
                 JsonArray list = jsonResponse.getAsJsonArray("list");
 
                 JsonObject city = jsonResponse.getAsJsonObject("city");
@@ -56,12 +54,12 @@ public class ForecastClient implements WeatherClient {
                 return new Weather(country, forecasts);
 
             } else {
-                System.out.println("Error: Unable to retrieve forecast data. Response code: "  + responseEntity.getStatusCodeValue());
+                System.out.println("Error: Response is null");
             }
 
         } catch (Exception e) {
+            System.out.println("Error: Exception occurred");
             e.printStackTrace();
-
         }
 
         return null;
